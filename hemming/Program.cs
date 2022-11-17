@@ -148,7 +148,7 @@
             matrixOfDistance[i, 0] = Console.ReadLine();
             matrixOfDistance[0, i] = matrixOfDistance[i, 0];
           }
-          int dmin = 99999; // Минимальное кодовое расстояние, изначально взято большое число
+          int dmin = 99999; // Минимальное кодовое расстояние, изначально взято большое число для последующей замены
           for (int i = 1; i <= Int32.Parse(count); i++) // Вычисляем кодовое расстояние для каждой пары
           {
             for (int j = 1; j <= Int32.Parse(count); j++)
@@ -174,7 +174,7 @@
           {
             for(int j = 0; j <= Int32.Parse(count); j++)
             {
-              output = string.Format("{0, 10}", matrixOfDistance[i, j]); // Форматирование строк. На каждую выделяется количество символов, равное количеству введённых чисел
+              output = string.Format("{0, 10}", matrixOfDistance[i, j]); // Форматирование строк. На каждую выделяется 10 символов
               Console.Write(output);
             }
             
