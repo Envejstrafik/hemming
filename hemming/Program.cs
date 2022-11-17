@@ -5,7 +5,7 @@ while (true)
   Console.WriteLine("2. Код Хемминга (проверка на ошибку)");
   Console.WriteLine("3. Код Хемминга (построение)");
   string sel = Console.ReadLine();
-  string num;
+  string num; // Число в двоичном коде, подаваемое на вход
   switch (sel)
   {
     case "1":
@@ -35,7 +35,7 @@ while (true)
       Console.Write("Введите число: ");
       num = Console.ReadLine();
 
-      int errorNum = 0;
+      int errorNum = 0; // Номер контрольного бита с ошибкой. Если остаётся равным 0 - ошибки передачи нет
       int step2 = 1; // Степени двойки
       string kusok = ""; // Кусок кода, который контролирует определённый контр. бит
       int bitCounter = 0; // Счётчик бит в выделенном куске
@@ -46,40 +46,47 @@ while (true)
         {
           if (i + step2 >= num.Length) kusok = num.Substring(i, num.Length - i); // В случае, если нужное кол-во бит выходит за границу, обрезаем
           else  kusok = num.Substring(i, step2);
-         // Console.WriteLine("контр бит = " + step2 + ",  биты = " + kusok);
 
           for(int j = 0; j < kusok.Length; j++) // Считаем биты
           {
             bitCounter += (kusok[j] - '0'); // Преобразуем в int и считаем сумму битов
           }
       
-         // Console.WriteLine("контр бит = " + step2 + ",  биты = " + kusok + ",  сумма = " + bitCounter + ",  бит с ошибкой = " + errorNum);
           
         }
         if (bitCounter % 2 != 0) // Проверяем сумму на чётность, если нечётный - суммируем номер бита с ошибкой в переменную
         {
-          errorNum += step2;
+          errorNum += step2; 
         }
-        bitCounter = 0;
+        bitCounter = 0; // Обнуляем счётчик битов
 
 
-        step2 *= 2;
+        step2 *= 2; // Переходим к следующей степени двойки
       }
-      Console.WriteLine("Ошибка в " + errorNum + " бите");
-
-      if (num[errorNum - 1] == '0') // Исправляем ошибку передачи
+      
+      if (errorNum != 0 && errorNum <= num.Length)
       {
-        num = num.Remove(errorNum - 1, 1);
-        num = num.Insert(errorNum - 1, "1");
-      }
-      else
-      if (num[errorNum - 1] == '1')
+        Console.WriteLine("Ошибка в " + errorNum + " бите");
+        if (num[errorNum - 1] == '0') // Исправляем ошибку передачи при её наличии
+        {
+          num = num.Remove(errorNum - 1, 1);
+          num = num.Insert(errorNum - 1, "1");
+        }
+        else
+        if (num[errorNum - 1] == '1')
+        {
+          num = num.Remove(errorNum - 1, 1);
+          num = num.Insert(errorNum - 1, "0");
+        }
+        Console.WriteLine("Исправленное сообщение: " + num);
+      } else if (errorNum == 0)
       {
-        num = num.Remove(errorNum - 1, 1);
-        num = num.Insert(errorNum - 1, "0");
+        Console.WriteLine("Ошибок передачи нет");
+      } else if (errorNum > num.Length)
+      {
+        Console.WriteLine("Код содержит более одной ошибки");
       }
-
-      Console.WriteLine("Исправленное сообщение: " + num);
+      
       Console.ReadKey();
       break;
 
@@ -88,15 +95,15 @@ while (true)
       Console.Write("Введите число: ");
       num = Console.ReadLine();
       step2 = 1; // Степени двойки
-      int startLen = num.Length; // Запоминаем изначальную длину строки
       bitCounter = 0; // Счётчик бит в выделенном куске
       kusok = "";
-      while (step2 <= num.Length) // Проходим по степеням двойки, добавляем нули на место контролирующих битов
+
+      while (step2 <= num.Length) // Проходим по степеням двойки, вставляем нули на место контролирующих битов
       {
         num = num.Insert(step2 - 1, "0");
         step2 *= 2;
       }
-      step2 = 1;
+      step2 = 1; // "Обнуление" степени двойки
 
       while (step2 <= num.Length) // Проходим по степеням двойки (решение в общем виде для любого количества бит)
       {
@@ -104,7 +111,6 @@ while (true)
         {
           if (i + step2 >= num.Length) kusok = num.Substring(i, num.Length - i); // В случае, если нужное кол-во бит выходит за границу, обрезаем
           else kusok = num.Substring(i, step2);
-          // Console.WriteLine("контр бит = " + step2 + ",  биты = " + kusok);
 
           for (int j = 0; j < kusok.Length; j++) // Считаем биты
           {
@@ -119,11 +125,9 @@ while (true)
           num = num.Remove(step2 - 1, 1);
           num = num.Insert(step2 - 1, "1");
         }
-        bitCounter = 0;
-        // Console.WriteLine("контр бит = " + step2 + ",  биты = " + kusok + ",  сумма = " + bitCounter + ",  бит с ошибкой = " + errorNum);
+        bitCounter = 0; // Обнуляем счётчик битов
 
-
-        step2 *= 2;
+        step2 *= 2; // Переходим к следующей степени двойки
       }
       Console.WriteLine("Код Хемминга: " + num);
       Console.ReadKey();
