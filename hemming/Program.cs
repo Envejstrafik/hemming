@@ -198,7 +198,7 @@
 
   }
 
-  static int CodeDistance(string firstNum, string secondNum) // На вход подаются две строки, содержащие в себе два кодовых расстояния
+  static int CodeDistance(string firstNum, string secondNum) // На вход подаются две строки, содержащие в себе два числа в двоичном коде равной длины
   {
     int dist = 0; // Кодовое расстояние
 
